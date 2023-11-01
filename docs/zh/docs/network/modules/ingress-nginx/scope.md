@@ -56,7 +56,7 @@ spec:
 
 ## 租户级 Ingress 实例
 
-当创建 Ingress 实例时，如果启用 `Ingress Scope`，IngressClass 设置了 `.spec.parameters`，并且设置 `.spec.parameters.scope` 为 `namespaceSelector`，并输入的 Label 为 `workspace.ghippo.io/id: '1235'`(其中 `12345` 为指定的工作空间 workspace  ID)，那么 Ingress 实例的 Ingress Class 指向为`租户级`，适用范围为`workspace01`中所有在当前集群的命名空间。
+当创建 Ingress 实例时，如果启用 `Ingress Scope`，IngressClass 设置了 `.spec.parameters`，并且设置 `.spec.parameters.scope` 为 `namespaceSelector`，并输入的 Label 为 `workspace.ghippo.io/id= 5`(其中 `5` 为指定的工作空间 workspace  ID)，那么 Ingress 实例的 Ingress Class 指向为`租户级`，适用范围为`workspace01`中所有在当前集群的命名空间。
 
 租户级的 Ingress 实例，相当于管理员将 Ingress 的使用权限下发给到某个工作空间，从而实现租户资源隔离。
 
@@ -72,7 +72,7 @@ spec:
     scope: Namespace # 指定 Ingress 实例范围为 Namespace
     apiGroup: k8s.example.com
     kind: IngressParameter # 指定 Ingress 实例 Kind 为 IngressParameter
-    namespaceSelector: workspace.ghippo.io/id: '1235' # 指定待使用的工作空间 ID
+    namespaceSelector: workspace.ghippo.io/id= '5' # 指定待使用的工作空间 ID
     name: external-config
 ```
 
@@ -98,7 +98,7 @@ spec:
 
 部署负载均衡器时，指定给某个工作空间使用后，此工作空间中对应当前集群下的命名空间，其中 Pod 都可以接收到由该负载均衡分发的请求。
 
-部署 Ingress-Ngnix 时 指定 在 `Namespace Selector` 中输入 `workspace.ghippo.io/id:1235`,创建后的 Ingress 实例为 `ID`为`1235`的 工作空间独享。
+部署 Ingress-Ngnix 时 指定`controller.scope.enabled=true` 并且在 `Namespace Selector` 中输入 `workspace.ghippo.io/id=5`,创建后的 Ingress 实例为 `ID`为`5`的 工作空间独享。
 
 ![工作空间Ingress](../../images/workspaceingress.jpg)
 
@@ -109,3 +109,4 @@ spec:
 Ingress 实例部署后，可在对应的命名空间中[创建 Ingress 规则](../../../kpanda/user-guide/network/create-ingress.md)，并选择对应实例的 Ingress Class 进行使用。
 
 更多信息可以参考 [scope](https://kubernetes.github.io/ingress-nginx/deploy/#scope)。
+
